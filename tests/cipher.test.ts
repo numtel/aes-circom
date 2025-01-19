@@ -1,6 +1,6 @@
 import { WitnessTester } from "circomkit";
 import { circomkit } from "./common";
-import { TinyAES, Block4x4 } from '../tinyAes';
+import { encryptAesEcbNoPadding, Block4x4 } from '../tinyAes';
 
 // todo: should debug cipher
 describe("Cipher", () => {
@@ -22,9 +22,7 @@ describe("Cipher", () => {
 
     const key = [0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c];
 
-    const aes = new TinyAES(new Uint8Array(key));
-    await aes.init();
-    const cipher = await aes.encryptBlock(block);
+    const cipher = await encryptAesEcbNoPadding(key, block);
 
     await circuit.expectPass({block, key}, {cipher});
   });
@@ -49,9 +47,7 @@ describe("Cipher", () => {
 
     const key = [0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c];
 
-    const aes = new TinyAES(new Uint8Array(key));
-    await aes.init();
-    const cipher = await aes.encryptBlock(block);
+    const cipher = await encryptAesEcbNoPadding(key, block);
 
     await circuit.expectPass({block, key}, {cipher});
   });
